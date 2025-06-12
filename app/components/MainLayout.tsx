@@ -11,8 +11,8 @@ export function MainLayout({ children }: MainLayoutProps) {
       <Navbar />
       <Sidebar />
 
-      <main className="ml-64 pt-16 min-h-screen">
-        <div className="p-8">
+      <main className="lg:ml-64 pt-16 min-h-screen">
+        <div className="p-4 sm:p-6 lg:p-8">
           {children}
         </div>
       </main>

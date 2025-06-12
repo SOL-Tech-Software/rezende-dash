@@ -10,35 +10,58 @@ interface MessagesChartProps {
     sucessos: number;
     falhas: number;
   }[];
+  period: string;
+  onPeriodChange: (period: string) => void;
 }
 
-export function MessagesChart({ data }: MessagesChartProps) {
+export function MessagesChart({ data, period, onPeriodChange }: MessagesChartProps) {
   const { theme } = useTheme();
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-200">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-4 sm:gap-0">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-200">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-200">
             Análise de Mensagens
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 mt-1 transition-colors duration-200">
+          <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-1 transition-colors duration-200">
             Distribuição detalhada de mensagens e taxas de sucesso
           </p>
         </div>
-        <div className="flex gap-2">
-          <button className="px-4 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors duration-200">
+        <div className="flex gap-2 w-full sm:w-auto">
+          <button 
+            onClick={() => onPeriodChange("hoje")}
+            className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+              period === "hoje"
+                ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
+                : "text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+            }`}
+          >
             Hoje
           </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+          <button 
+            onClick={() => onPeriodChange("semana")}
+            className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+              period === "semana"
+                ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
+                : "text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+            }`}
+          >
             Semana
           </button>
-          <button className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+          <button 
+            onClick={() => onPeriodChange("mes")}
+            className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+              period === "mes"
+                ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
+                : "text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+            }`}
+          >
             Mês
           </button>
         </div>
       </div>
-      <div className="h-[400px]">
+      <div className="h-[300px] sm:h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 10 }}>
             <defs>

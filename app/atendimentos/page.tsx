@@ -149,6 +149,23 @@ export default function Atendimentos() {
   const [showFilters, setShowFilters] = useState(false);
   const [filterStatus, setFilterStatus] = useState("todos");
 
+  // Filtrar atendimentos
+  const filteredAtendimentos = atendimentos.filter((atendimento) => {
+    // Filtrar por termo de busca
+    const searchMatch = searchTerm === "" || 
+      atendimento.cliente.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      atendimento.numero.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      atendimento.ultimaInteracao.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      atendimento.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    // Filtrar por status
+    const statusMatch = filterStatus === "todos" || 
+      (filterStatus === "em-andamento" && atendimento.status === "Em andamento") ||
+      (filterStatus === "concluido" && atendimento.status === "Concluído");
+
+    return searchMatch && statusMatch;
+  });
+
   return (
     <MainLayout>
       <PageHeader
@@ -166,7 +183,7 @@ export default function Atendimentos() {
       </PageHeader>
 
       <AtendimentoTable
-        atendimentos={atendimentos}
+        atendimentos={filteredAtendimentos}
         onSelectAtendimento={setSelectedAtendimento}
       />
 

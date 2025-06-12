@@ -24,13 +24,13 @@ export function AtendimentoDetailsModal({ atendimento, onClose }: AtendimentoDet
         <div className="flex min-h-full items-center justify-center p-4">
           <div className="relative w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow-xl transition-colors duration-200">
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700 gap-4 sm:gap-0">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-200">
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-200">
                     Atendimento #{atendimento.numero}
                   </h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 transition-colors duration-200">
@@ -52,8 +52,8 @@ export function AtendimentoDetailsModal({ atendimento, onClose }: AtendimentoDet
             </div>
 
             {/* Content */}
-            <div className="p-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="p-4 sm:p-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
                 {/* Left Column */}
                 <div className="space-y-6">
                   <div>
@@ -61,7 +61,7 @@ export function AtendimentoDetailsModal({ atendimento, onClose }: AtendimentoDet
                       Informações do Cliente
                     </h3>
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <span className="text-gray-500 dark:text-gray-400 transition-colors duration-200">
                           Nome
                         </span>
@@ -69,7 +69,7 @@ export function AtendimentoDetailsModal({ atendimento, onClose }: AtendimentoDet
                           {atendimento.cliente}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <span className="text-gray-500 dark:text-gray-400 transition-colors duration-200">
                           Status
                         </span>
@@ -108,7 +108,7 @@ export function AtendimentoDetailsModal({ atendimento, onClose }: AtendimentoDet
                       Status e Interações
                     </h3>
                     <div className="space-y-4">
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <span className="text-gray-500 dark:text-gray-400 transition-colors duration-200">
                           Precisa Aprovação
                         </span>
@@ -120,7 +120,7 @@ export function AtendimentoDetailsModal({ atendimento, onClose }: AtendimentoDet
                           {atendimento.precisaAprovacao ? "Sim" : "Não"}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <span className="text-gray-500 dark:text-gray-400 transition-colors duration-200">
                           Última Mensagem
                         </span>
@@ -146,12 +146,12 @@ export function AtendimentoDetailsModal({ atendimento, onClose }: AtendimentoDet
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-end gap-4 p-6 border-t border-gray-200 dark:border-gray-700">
-              <button className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-4 p-4 sm:p-6 border-t border-gray-200 dark:border-gray-700">
+              <button className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
                 <Edit className="w-4 h-4 inline-block mr-2" />
                 Editar
               </button>
-              <button className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 dark:bg-indigo-500 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors duration-200">
+              <button className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-indigo-600 dark:bg-indigo-500 rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors duration-200">
                 <MessageSquare className="w-4 h-4 inline-block mr-2" />
                 Ver Chat
               </button>

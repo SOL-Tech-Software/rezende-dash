@@ -14,6 +14,7 @@ import { Clock } from "lucide-react";
 import { AtendimentosDistributionChart } from "../components/AtendimentosDistributionChart";
 import { AtendimentosTrendChart } from "../components/AtendimentosTrendChart";
 import { RecentAtendimentosTable } from "../components/RecentAtendimentosTable";
+import { useState } from "react";
 
 const dataCards = [
   { 
@@ -149,6 +150,25 @@ const atendimentosRecentes = [
 
 export default function Dashboard() {
   const { theme } = useTheme();
+  const [trendPeriod, setTrendPeriod] = useState("7");
+  const [messagePeriod, setMessagePeriod] = useState("hoje");
+
+  // Filtrar dados de tendência
+  const filteredTrendData = dataTendencia.slice(0, parseInt(trendPeriod));
+
+  // Filtrar dados de mensagens
+  const getFilteredMessageData = () => {
+    switch (messagePeriod) {
+      case "hoje":
+        return dataGrafico.slice(0, 24); // Últimas 24 horas
+      case "semana":
+        return dataGrafico.filter((_, index) => index % 24 === 0).slice(0, 7); // Últimos 7 dias
+      case "mes":
+        return dataGrafico.filter((_, index) => index % 24 === 0).slice(0, 30); // Últimos 30 dias
+      default:
+        return dataGrafico;
+    }
+  };
 
   return (
     <MainLayout>
@@ -157,7 +177,7 @@ export default function Dashboard() {
         description="Visão geral do seu negócio"
       />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-4 sm:mb-6">
         <StatCard
           label="Total de Mensagens"
           value="12.5k"
@@ -188,16 +208,24 @@ export default function Dashboard() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <MessagesChart data={dataGrafico} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
+        <MessagesChart 
+          data={getFilteredMessageData()} 
+          period={messagePeriod}
+          onPeriodChange={setMessagePeriod}
+        />
         <AtendimentosDistributionChart data={dataDistribuicao} />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 mb-6">
-        <AtendimentosTrendChart data={dataTendencia} />
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 mb-4 sm:mb-6">
+        <AtendimentosTrendChart 
+          data={filteredTrendData}
+          period={trendPeriod}
+          onPeriodChange={setTrendPeriod}
+        />
       </div>
 
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6">
         <RecentAtendimentosTable atendimentos={atendimentosRecentes} />
       </div>
     </MainLayout>
