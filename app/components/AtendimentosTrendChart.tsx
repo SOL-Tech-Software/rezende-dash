@@ -1,4 +1,4 @@
-import { useTheme } from "next-themes";
+import { useNavbarTheme } from "./ThemeProvider";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -14,16 +14,16 @@ interface AtendimentosTrendChartProps {
 }
 
 export function AtendimentosTrendChart({ data, period, onPeriodChange }: AtendimentosTrendChartProps) {
-  const { theme } = useTheme();
+  const { theme } = useNavbarTheme();
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 transition-colors duration-200">
+    <div className={`${theme === 'dark' ? 'bg-gradient-to-br from-white/5 to-white/10' : 'bg-white'} rounded-xl shadow-sm p-4 sm:p-6`}>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-4 sm:gap-0">
         <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-200">
+          <h2 className={`text-lg sm:text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
             Tendência de Atendimentos
           </h2>
-          <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-1 transition-colors duration-200">
+          <p className={`text-sm sm:text-base ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'} mt-1`}>
             Evolução dos atendimentos ao longo do tempo
           </p>
         </div>
@@ -32,8 +32,8 @@ export function AtendimentosTrendChart({ data, period, onPeriodChange }: Atendim
             onClick={() => onPeriodChange("7")}
             className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
               period === "7"
-                ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
-                : "text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                ? theme === 'dark' ? "text-indigo-400 bg-indigo-900/30" : "text-indigo-600 bg-indigo-50"
+                : theme === 'dark' ? "text-gray-200 bg-gray-700 hover:bg-gray-600" : "text-gray-700 bg-gray-100 hover:bg-gray-200"
             }`}
           >
             7 dias
@@ -42,8 +42,8 @@ export function AtendimentosTrendChart({ data, period, onPeriodChange }: Atendim
             onClick={() => onPeriodChange("30")}
             className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
               period === "30"
-                ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
-                : "text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                ? theme === 'dark' ? "text-indigo-400 bg-indigo-900/30" : "text-indigo-600 bg-indigo-50"
+                : theme === 'dark' ? "text-gray-200 bg-gray-700 hover:bg-gray-600" : "text-gray-700 bg-gray-100 hover:bg-gray-200"
             }`}
           >
             30 dias
@@ -52,8 +52,8 @@ export function AtendimentosTrendChart({ data, period, onPeriodChange }: Atendim
             onClick={() => onPeriodChange("90")}
             className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
               period === "90"
-                ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30"
-                : "text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                ? theme === 'dark' ? "text-indigo-400 bg-indigo-900/30" : "text-indigo-600 bg-indigo-50"
+                : theme === 'dark' ? "text-gray-200 bg-gray-700 hover:bg-gray-600" : "text-gray-700 bg-gray-100 hover:bg-gray-200"
             }`}
           >
             90 dias
@@ -75,7 +75,7 @@ export function AtendimentosTrendChart({ data, period, onPeriodChange }: Atendim
             </defs>
             <CartesianGrid 
               strokeDasharray="3 3" 
-              className="stroke-gray-200 dark:stroke-gray-700 transition-colors duration-200"
+              className={`${theme === 'dark' ? 'stroke-gray-700' : 'stroke-gray-200'}`}
               vertical={false}
             />
             <XAxis 

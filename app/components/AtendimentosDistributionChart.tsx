@@ -1,4 +1,4 @@
-import { useTheme } from "next-themes";
+import { useNavbarTheme } from "./ThemeProvider";
 import {
   PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip
 } from 'recharts';
@@ -12,16 +12,16 @@ interface AtendimentosDistributionChartProps {
 }
 
 export function AtendimentosDistributionChart({ data }: AtendimentosDistributionChartProps) {
-  const { theme } = useTheme();
+  const { theme } = useNavbarTheme();
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 transition-colors duration-200">
+    <div className={`${theme === 'dark' ? 'bg-gradient-to-br from-white/5 to-white/10' : 'bg-white'} rounded-xl shadow-sm p-4 sm:p-6`}>
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white transition-colors duration-200">
+          <h2 className={`text-lg sm:text-xl font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
             Distribuição de Atendimentos
           </h2>
-          <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-1 transition-colors duration-200">
+          <p className={`text-sm sm:text-base ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'} mt-1`}>
             Análise por tipo de atendimento
           </p>
         </div>
@@ -72,7 +72,7 @@ export function AtendimentosDistributionChart({ data }: AtendimentosDistribution
                 paddingTop: '20px'
               }}
               formatter={(value, entry) => (
-                <span className="text-sm text-gray-600 dark:text-gray-300">
+                <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                   {value}
                 </span>
               )}

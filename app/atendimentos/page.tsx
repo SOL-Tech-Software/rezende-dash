@@ -6,6 +6,7 @@ import { AtendimentoFilters } from "../components/AtendimentoFilters";
 import { PageHeader } from "../components/PageHeader";
 import { MainLayout } from "../components/MainLayout";
 import { Atendimento } from "../types/atendimento";
+import { useNavbarTheme } from "../components/ThemeProvider";
 
 // Mock data for the table
 const atendimentos: Atendimento[] = [
@@ -148,6 +149,7 @@ export default function Atendimentos() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filterStatus, setFilterStatus] = useState("todos");
+  const { theme } = useNavbarTheme();
 
   // Filtrar atendimentos
   const filteredAtendimentos = atendimentos.filter((atendimento) => {

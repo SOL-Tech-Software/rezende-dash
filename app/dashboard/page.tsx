@@ -5,7 +5,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { TrendingUp, Users, MessageSquare, AlertCircle, DollarSign, BarChart2 } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useNavbarTheme } from "../components/ThemeProvider";
 import { MainLayout } from "../components/MainLayout";
 import { PageHeader } from "../components/PageHeader";
 import { StatCard } from "../components/StatCard";
@@ -149,7 +149,7 @@ const atendimentosRecentes = [
 ];
 
 export default function Dashboard() {
-  const { theme } = useTheme();
+  const { theme } = useNavbarTheme();
   const [trendPeriod, setTrendPeriod] = useState("7");
   const [messagePeriod, setMessagePeriod] = useState("hoje");
 
