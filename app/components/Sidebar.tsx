@@ -13,12 +13,12 @@ const menuItems = [
   },
   {
     name: "Atendimentos",
-    href: "/atendimentos",
+    href: "/dashboard/atendimentos",
     icon: MessageSquare
   },
   {
     name: "Configurações",
-    href: "/configuracoes",
+    href: "/dashboard/configuracoes",
     icon: Settings
   }
 ];
