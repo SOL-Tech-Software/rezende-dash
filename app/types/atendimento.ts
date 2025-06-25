@@ -1,11 +1,9 @@
 export interface Atendimento {
-  id: number;
-  numero: string;
-  ultimaMensagem: string;
-  data: string;
-  status: "Em andamento" | "Concluído";
-  precisaAprovacao: boolean;
-  cliente: string;
-  tags: string[];
-  ultimaInteracao: string;
+  id: string;
+  name: string;
+  data_admissao: string;
+  data_demissao: string;
+  salario: string;
+  created_at: string | null;
+  ttl: string;
 } 

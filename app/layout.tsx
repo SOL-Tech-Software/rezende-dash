@@ -10,7 +10,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Rezende - Painel de Controle",
+  title: "Advocacia Rezende - Painel de Controle",
   description: "Painel de controle para gerenciamento de atendimentos",
 };
 

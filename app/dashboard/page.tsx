@@ -4,7 +4,7 @@ import { Sidebar } from "../components/Sidebar";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
-import { TrendingUp, Users, MessageSquare, AlertCircle, DollarSign, BarChart2 } from "lucide-react";
+import { TrendingUp, Users, MessageSquare, AlertCircle, DollarSign, BarChart2, AlertTriangle } from "lucide-react";
 import { useNavbarTheme } from "../components/ThemeProvider";
 import { MainLayout } from "../components/MainLayout";
 import { PageHeader } from "../components/PageHeader";
@@ -172,6 +172,15 @@ export default function Dashboard() {
 
   return (
     <MainLayout>
+      <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+        <div className="flex items-center">
+          <AlertTriangle className="w-5 h-5 text-yellow-600 mr-2" />
+          <p className="text-yellow-800 font-medium">
+            ⚠️ Esta tela ainda está em construção. Os dados são fictícios.
+          </p>
+        </div>
+      </div>
+
       <PageHeader
         title="Dashboard"
         description="Visão geral do seu negócio"

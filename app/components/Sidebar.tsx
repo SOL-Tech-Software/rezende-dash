@@ -69,7 +69,7 @@ export function Sidebar() {
       >
         <div className={`h-16 flex items-center px-8 border-b ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
           <h1 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-            AI Automation
+            AI Chatbot
           </h1>
         </div>
 

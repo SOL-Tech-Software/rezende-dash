@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AtendimentoTable } from "../../components/AtendimentoTable";
 import { AtendimentoDetailsModal } from "../../components/AtendimentoDetailsModal";
 import { AtendimentoFilters } from "../../components/AtendimentoFilters";
@@ -8,171 +8,109 @@ import { MainLayout } from "../../components/MainLayout";
 import { Atendimento } from "../../types/atendimento";
 import { useNavbarTheme } from "../../components/ThemeProvider";
 
-// Mock data for the table
-const atendimentos: Atendimento[] = [
-  {
-    id: 1,
-    numero: "+55 11 98765-4321",
-    ultimaMensagem: "10:30",
-    data: "2024-03-20",
-    status: "Em andamento",
-    precisaAprovacao: true,
-    cliente: "João Silva",
-    tags: ["Novo Cliente", "Urgente"],
-    ultimaInteracao: "Cliente solicitou informações sobre pedido"
-  },
-  {
-    id: 2,
-    numero: "+55 11 91234-5678",
-    ultimaMensagem: "09:45",
-    data: "2024-03-20",
-    status: "Concluído",
-    precisaAprovacao: false,
-    cliente: "Maria Santos",
-    tags: ["Cliente VIP"],
-    ultimaInteracao: "Atendimento finalizado com sucesso"
-  },
-  {
-    id: 3,
-    numero: "+55 11 99876-5432",
-    ultimaMensagem: "11:20",
-    data: "2024-03-20",
-    status: "Em andamento",
-    precisaAprovacao: true,
-    cliente: "Pedro Oliveira",
-    tags: ["Reclamação"],
-    ultimaInteracao: "Cliente reportou problema com entrega"
-  },
-  {
-    id: 4,
-    numero: "+55 11 97777-8888",
-    ultimaMensagem: "08:15",
-    data: "2024-03-20",
-    status: "Concluído",
-    precisaAprovacao: false,
-    cliente: "Ana Costa",
-    tags: ["Sugestão"],
-    ultimaInteracao: "Cliente sugeriu melhoria no serviço"
-  },
-  {
-    id: 5,
-    numero: "+55 11 96666-5555",
-    ultimaMensagem: "14:30",
-    data: "2024-03-20",
-    status: "Em andamento",
-    precisaAprovacao: true,
-    cliente: "Carlos Mendes",
-    tags: ["Dúvida"],
-    ultimaInteracao: "Cliente solicitou esclarecimentos"
-  },
-  {
-    id: 6,
-    numero: "+55 11 95555-4444",
-    ultimaMensagem: "13:45",
-    data: "2024-03-20",
-    status: "Concluído",
-    precisaAprovacao: false,
-    cliente: "Juliana Lima",
-    tags: ["Elogio"],
-    ultimaInteracao: "Cliente elogiou o atendimento"
-  },
-  {
-    id: 7,
-    numero: "+55 11 94444-3333",
-    ultimaMensagem: "12:10",
-    data: "2024-03-20",
-    status: "Em andamento",
-    precisaAprovacao: true,
-    cliente: "Roberto Alves",
-    tags: ["Reclamação", "Urgente"],
-    ultimaInteracao: "Cliente reportou problema técnico"
-  },
-  {
-    id: 8,
-    numero: "+55 11 93333-2222",
-    ultimaMensagem: "15:20",
-    data: "2024-03-20",
-    status: "Concluído",
-    precisaAprovacao: false,
-    cliente: "Fernanda Souza",
-    tags: ["Cliente VIP"],
-    ultimaInteracao: "Atendimento finalizado com sucesso"
-  },
-  {
-    id: 9,
-    numero: "+55 11 92222-1111",
-    ultimaMensagem: "16:05",
-    data: "2024-03-20",
-    status: "Em andamento",
-    precisaAprovacao: true,
-    cliente: "Lucas Martins",
-    tags: ["Novo Cliente"],
-    ultimaInteracao: "Cliente solicitou informações iniciais"
-  },
-  {
-    id: 10,
-    numero: "+55 11 91111-0000",
-    ultimaMensagem: "17:30",
-    data: "2024-03-20",
-    status: "Concluído",
-    precisaAprovacao: false,
-    cliente: "Patrícia Gomes",
-    tags: ["Sugestão"],
-    ultimaInteracao: "Cliente sugeriu nova funcionalidade"
-  },
-  {
-    id: 11,
-    numero: "+55 11 90000-9999",
-    ultimaMensagem: "18:15",
-    data: "2024-03-20",
-    status: "Em andamento",
-    precisaAprovacao: true,
-    cliente: "Ricardo Santos",
-    tags: ["Dúvida", "Urgente"],
-    ultimaInteracao: "Cliente solicitou suporte técnico"
-  },
-  {
-    id: 12,
-    numero: "+55 11 98989-8888",
-    ultimaMensagem: "19:00",
-    data: "2024-03-20",
-    status: "Concluído",
-    precisaAprovacao: false,
-    cliente: "Camila Oliveira",
-    tags: ["Cliente VIP"],
-    ultimaInteracao: "Atendimento finalizado com sucesso"
-  }
-];
-
 export default function Atendimentos() {
+  const [atendimentos, setAtendimentos] = useState<Atendimento[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedAtendimento, setSelectedAtendimento] = useState<Atendimento | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filterStatus, setFilterStatus] = useState("todos");
   const { theme } = useNavbarTheme();
 
+  // Buscar dados da API
+  const fetchAtendimentos = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/atendimentos');
+      
+      if (!response.ok) {
+        throw new Error('Erro ao buscar dados');
+      }
+      
+      const data = await response.json();
+      setAtendimentos(data || []);
+      setError(null);
+    } catch (err) {
+      console.error('Erro ao buscar atendimentos:', err);
+      setError('Erro ao carregar os dados');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAtendimentos();
+  }, []);
+
+  // Função para extrair o telefone do ID (agora é o nome)
+  const getTelefoneFromId = (id: string) => {
+    return id; // Agora o ID é o nome
+  };
+
   // Filtrar atendimentos
   const filteredAtendimentos = atendimentos.filter((atendimento) => {
     // Filtrar por termo de busca
     const searchMatch = searchTerm === "" || 
-      atendimento.cliente.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      atendimento.numero.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      atendimento.ultimaInteracao.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      atendimento.tags.some((tag: string) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+      atendimento.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      getTelefoneFromId(atendimento.id).toLowerCase().includes(searchTerm.toLowerCase());
 
-    // Filtrar por status
-    const statusMatch = filterStatus === "todos" || 
-      (filterStatus === "em-andamento" && atendimento.status === "Em andamento") ||
-      (filterStatus === "concluido" && atendimento.status === "Concluído");
-
-    return searchMatch && statusMatch;
+    return searchMatch;
   });
+
+  if (loading) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-lg">Carregando...</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <MainLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-red-500 text-lg">{error}</div>
+        </div>
+      </MainLayout>
+    );
+  }
+
+  // Verificar se não há clientes
+  if (!loading && atendimentos.length === 0) {
+    return (
+      <MainLayout>
+        <PageHeader
+          title="Clientes"
+          description="Gerencie os dados dos clientes"
+        >
+          <AtendimentoFilters
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            showFilters={showFilters}
+            onToggleFilters={() => setShowFilters(!showFilters)}
+            filterStatus={filterStatus}
+            onFilterStatusChange={setFilterStatus}
+          />
+        </PageHeader>
+        
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="text-gray-500 text-lg mb-2">Sem clientes até agora</div>
+            <div className="text-gray-400 text-sm">Os clientes aparecerão aqui quando forem adicionados ao sistema</div>
+          </div>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout>
       <PageHeader
-        title="Atendimentos"
-        description="Gerencie suas conversas e atendimentos"
+        title="Clientes"
+        description="Gerencie os dados dos clientes"
       >
         <AtendimentoFilters
           searchTerm={searchTerm}
@@ -184,15 +122,36 @@ export default function Atendimentos() {
         />
       </PageHeader>
 
+      {/* Disclaimer sobre dados coletados pela IA */}
+      <div className="mb-4 p-3 bg-gray-50 border border-gray-200 rounded-md">
+        <div className="flex items-start">
+          <div className="flex-shrink-0">
+            <svg className="h-4 w-4 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <div className="ml-2">
+            <div className="text-xs text-gray-600">
+              <p>
+                <strong>Aviso:</strong> Os dados são coletados por IA e podem conter inconsistências. 
+                Sempre verifique as informações antes de tomar decisões.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <AtendimentoTable
         atendimentos={filteredAtendimentos}
         onSelectAtendimento={setSelectedAtendimento}
+        onRefresh={fetchAtendimentos}
       />
 
       {selectedAtendimento && (
         <AtendimentoDetailsModal
           atendimento={selectedAtendimento}
           onClose={() => setSelectedAtendimento(null)}
+          onRefresh={fetchAtendimentos}
         />
       )}
     </MainLayout>

@@ -65,7 +65,7 @@ export default function Configuracoes() {
               </div>
             </div>
 
-            {/* Modo de Aprovação */}
+            {/* Modo de Aprovação *
             <div className={`flex items-center justify-between p-4 ${theme === 'dark' ? 'bg-gradient-to-br from-white/5 to-white/10' : 'bg-gray-50'} rounded-xl`}>
               <div className="flex items-center gap-4">
                 <div className={`p-3 rounded-lg ${theme === 'dark' ? 'bg-yellow-900' : 'bg-yellow-100'}`}>
@@ -102,9 +102,9 @@ export default function Configuracoes() {
                   />
                 </Switch>
               </div>
-            </div>
+            </div>/}
 
-            {/* Modo Rápido */}
+            {/* Modo Rápido 
             <div className={`flex items-center justify-between p-4 ${theme === 'dark' ? 'bg-gradient-to-br from-white/5 to-white/10' : 'bg-gray-50'} rounded-xl`}>
               <div className="flex items-center gap-4">
                 <div className={`p-3 rounded-lg ${theme === 'dark' ? 'bg-green-900' : 'bg-green-100'}`}>
@@ -125,7 +125,7 @@ export default function Configuracoes() {
                 </span>
                 <div className={`h-6 w-11 rounded-full ${theme === 'dark' ? 'bg-gray-600' : 'bg-gray-200'} opacity-50`} />
               </div>
-            </div>
+            </div>*/}
           </div>
         </div>
       </div>
