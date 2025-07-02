@@ -1,11 +1,13 @@
 'use client'
 import Image from "next/image";
-import { Bell, Search, Settings, User } from "lucide-react";
+import { Bell, Search, Settings, User, LogOut } from "lucide-react";
 import { useNavbarTheme } from "./ThemeProvider";
+import { useAuth } from "../../lib/auth";
 import { useEffect, useState } from "react";
 
 export function Navbar() {
   const { theme, setTheme } = useNavbarTheme();
+  const { user, logout } = useAuth();
   const [mounted, setMounted] = useState(false);
 
   // Evita hidratação incorreta
@@ -64,11 +66,25 @@ export function Navbar() {
             <Settings className="w-5 h-5" />
           </button>
 
-          <button className={`flex items-center gap-2 p-2 ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'} transition-colors duration-200`}>
-            <div className={`w-8 h-8 rounded-full ${theme === 'dark' ? 'bg-indigo-900/30' : 'bg-indigo-100'} flex items-center justify-center`}>
-              <User className={`w-4 h-4 ${theme === 'dark' ? 'text-indigo-400' : 'text-indigo-600'}`} />
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:block text-right">
+              <p className={`text-sm font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                {user?.name || user?.email}
+              </p>
             </div>
-          </button>
+            <button className={`flex items-center gap-2 p-2 ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'} transition-colors duration-200`}>
+              <div className={`w-8 h-8 rounded-full ${theme === 'dark' ? 'bg-indigo-900/30' : 'bg-indigo-100'} flex items-center justify-center`}>
+                <User className={`w-4 h-4 ${theme === 'dark' ? 'text-indigo-400' : 'text-indigo-600'}`} />
+              </div>
+            </button>
+            <button 
+              onClick={logout}
+              className={`p-2 ${theme === 'dark' ? 'text-gray-400 hover:text-red-400' : 'text-gray-500 hover:text-red-600'} transition-colors duration-200`}
+              title="Sair"
+            >
+              <LogOut className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </nav>

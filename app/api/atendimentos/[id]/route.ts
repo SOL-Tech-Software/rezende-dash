@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     // Fazer a requisição POST para o endpoint de forget-client
     const response = await fetch('https://n8n-production-2903.up.railway.app/webhook/rez/api/forget-client', {

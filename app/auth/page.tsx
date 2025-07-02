@@ -1,9 +1,8 @@
 'use client'
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Lock, User, LogIn } from 'lucide-react';
 import { useNavbarTheme } from '../components/ThemeProvider';
-import Image from 'next/image';
+import { useAuth } from '../../lib/auth';
 
 export default function AuthPage() {
   const [email, setEmail] = useState('');
@@ -12,25 +11,21 @@ export default function AuthPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const { theme } = useNavbarTheme();
-  const router = useRouter();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
-    // Simulação de login - você pode substituir por sua lógica real
     try {
-      // Aqui você faria a chamada para sua API de autenticação
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const result = await login(email, password);
       
-      // Simular validação básica
-      if (email && password) {
-        // Redirecionar para o dashboard após login bem-sucedido
-        router.push('/dashboard');
-      } else {
-        setError('Por favor, preencha todos os campos');
+      if (!result.success) {
+        setError(result.error || 'Erro ao fazer login');
       }
+      // O redirecionamento é feito automaticamente pelo hook useAuth
+      // quando o login for bem-sucedido
     } catch (err) {
       setError('Erro ao fazer login. Tente novamente.');
     } finally {
